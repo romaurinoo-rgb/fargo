@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FARGO - Статус заявки</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../assets/styles.css" />
+</head>
+
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="overlay"></div>
+
+  <!-- Particle canvas -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand" role="button" tabindex="0" onclick="window.location.href='../../index.html'" aria-label="На главную">
+        <div class="brand__text">
+          <div class="brand__title">Fargo Family</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav__link" onclick="window.location.href='Заявка.html'">Заявка</button>
+        <button class="nav__link" onclick="window.location.href='Статус.html'">Статус</button>
+        <button class="nav__link" onclick="window.location.href='Состав.html'">Состав</button>
+        <a class="nav__link nav__link--discord" href="https://discord.gg/hDvFrJCv">Discord</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- STATUS -->
+    <section id="page-status" class="page is-active">
+      <div class="hero hero--small">
+        <h1 class="hero__title hero__title--sm">СТАТУС ЗАЯВКИ</h1>
+        <p class="hero__sub">
+          Введите <b>код</b> (из экрана отправки) или <b>Discord</b>, чтобы посмотреть статус и комментарий.
+        </p>
+      </div>
+
+      <div class="wrap">
+        <div class="card card--form">
+          <div class="fields">
+            <div class="field">
+              <label class="field__label"><span class="ico">🔎</span>Код заявки</label>
+              <input id="lookupCode" class="field__input" placeholder="Например: 9Q7K2A" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label class="field__label"><span class="ico">💬</span>Discord</label>
+              <input id="lookupDiscord" class="field__input" placeholder="Например: user#1234" autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn--primary" id="lookupBtn">ПОСМОТРЕТЬ</button>
+            <button class="btn btn--ghost" id="fillLastBtn">Вставить мой код</button>
+          </div>
+
+          <div class="result" id="statusResult" style="display:none"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../assets/app.js"></script>
+</body>
+</html>

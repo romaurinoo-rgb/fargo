@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FARGO - Панель администратора</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../assets/styles.css" />
+</head>
+
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="overlay"></div>
+
+  <!-- Particle canvas -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand" role="button" tabindex="0" onclick="window.location.href='../../index.html'" aria-label="На главную">
+        <div class="brand__text">
+          <div class="brand__title">Fargo Family</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav__link" onclick="window.location.href='../user/Заявка.html'">Заявка</button>
+        <button class="nav__link" onclick="window.location.href='../user/Статус.html'">Статус</button>
+        <button class="nav__link" onclick="window.location.href='../user/Состав.html'">Состав</button>
+        <a class="nav__link nav__link--discord" href="https://discord.gg/hDvFrJCv">Discord</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- LOGIN -->
+    <section id="page-login" class="page is-active">
+      <div class="center">
+        <div class="card card--center card--login">
+          <div class="big-ico">🔒</div>
+          <div class="title">ВХОД В ПАНЕЛЬ</div>
+          <div class="muted">Введите логин и пароль администратора</div>
+
+          <div class="spacer"></div>
+
+          <div class="login-grid">
+            <div class="field">
+              <label class="field__label">Логин</label>
+              <div class="field__row">
+                <span class="input-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" fill="currentColor"/><path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6v1H4v-1z" fill="currentColor"/></svg>
+                </span>
+                <input id="adminUser" class="field__input" placeholder="Введите логин" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label">Пароль</label>
+              <div class="field__row">
+                <span class="input-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17 8V7a5 5 0 10-10 0v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="8" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                <input id="adminPass" class="field__input" type="password" placeholder="Введите пароль" />
+              </div>
+            </div>
+          </div>
+
+          <div class="actions actions--center">
+            <button class="btn btn--primary breathing" id="loginBtn">ВОЙТИ</button>
+            <button class="btn btn--ghost" onclick="window.location.href='../user/Заявка.html'">Назад</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="page-admin" class="page">
+      <div class="admin">
+        <div class="admin__top">
+          <div>
+            <div class="admin__title">Панель управления</div>
+            <div class="admin__meta">
+              <div class="admin__sub">Управление заявками и составом семьи</div>
+            </div>
+          </div>
+          <div id="adminProfile" class="adminProfile" style="display:none">
+            <div class="avatar avatar--sm" id="adminAvatar">A</div>
+            <div class="adminProfile__info">
+              <div id="adminNameText" class="adminProfile__name">Admin</div>
+              <div id="adminRoleText" class="adminProfile__role">Owner</div>
+            </div>
+            <button class="mini" id="editAdminBtn">✏️</button>
+          </div>
+          <div class="adminSwitch">
+            <button class="chip is-active" id="adminViewApps">📄 Заявки</button>
+            <button class="chip" id="adminViewMembers"><svg class="pill__ico" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" fill="currentColor"/><path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6v1H4v-1z" fill="currentColor"/></svg> Состав</button>
+          </div>
+          <button class="btn btn--ghost btn--sm" id="logoutBtn">Выйти</button>
+        </div>
+
+        <div id="adminAppsPane">
+          <div class="stats">
+            <div class="stat stat--all" data-tab="all">
+              <div class="stat__ico">📊</div>
+              <div class="stat__num" id="stAll">0</div>
+              <div class="stat__lbl">Всего заявок</div>
+            </div>
+            <div class="stat stat--pending" data-tab="pending">
+              <div class="stat__ico">⏳</div>
+              <div class="stat__num" id="stPending">0</div>
+              <div class="stat__lbl">Ожидают</div>
+            </div>
+            <div class="stat stat--accepted" data-tab="accepted">
+              <div class="stat__ico">✅</div>
+              <div class="stat__num" id="stAccepted">0</div>
+              <div class="stat__lbl">Принято</div>
+            </div>
+            <div class="stat stat--rejected" data-tab="rejected">
+              <div class="stat__ico">❌</div>
+              <div class="stat__num" id="stRejected">0</div>
+              <div class="stat__lbl">Отклонено</div>
+            </div>
+          </div>
+
+          <div class="tabs">
+            <button class="tab is-active" data-tab="all">📄 Все (<span id="tAll">0</span>)</button>
+            <button class="tab" data-tab="pending">⏳ Ожидают (<span id="tPending">0</span>)</button>
+            <button class="tab" data-tab="accepted">✅ Принятые (<span id="tAccepted">0</span>)</button>
+            <button class="tab" data-tab="rejected">❌ Отклонённые (<span id="tRejected">0</span>)</button>
+          </div>
+
+          <div class="card card--list">
+            <div id="list" class="list"></div>
+          </div>
+        </div><!-- /adminAppsPane -->
+
+        <div class="card card--list" style="margin-top:14px">
+          <div class="rosterTop">
+            <div class="rosterTop__left">
+              <div class="admin__title" style="font-size:14px; letter-spacing:.18em">АДМИНИСТРАТОРЫ</div>
+              <div class="admin__sub" style="margin-top:6px">Управление аккаунтами администраторов</div>
+            </div>
+            <div class="rosterTop__right">
+              <button class="mini mini--good" id="addAdminBtn" onclick="createAdminUser()">➕ Добавить</button>
+              <button class="mini mini--bad" id="delAdminBtn" onclick="deleteAdminUser()">🗑️ Удалить</button>
+            </div>
+          </div>
+          <div id="adminListContainer" class="rosterList"></div>
+        </div>
+
+        <div class="card card--list" style="margin-top:14px">
+          <div class="rosterTop">
+            <div class="rosterTop__left">
+              <div class="admin__title" style="font-size:14px; letter-spacing:.18em">ЛОГ ДЕЙСТВИЙ</div>
+              <div class="admin__sub" style="margin-top:6px">Кто и что делал в админке (локально)</div>
+            </div>
+            <div class="rosterTop__right">
+              <button class="btn btn--ghost btn--sm" id="clearAdminLog">Очистить лог</button>
+            </div>
+          </div>
+          <div id="adminLogList" class="list"></div>
+        </div>
+
+        <div id="adminMembersPane" class="card card--form" style="display:none; margin-top:14px">
+          <div class="rosterTop">
+            <div class="rosterTop__left">
+              <div class="admin__title" style="font-size:14px; letter-spacing:.18em">СОСТАВ (АДМИН)</div>
+              <div class="admin__sub" style="margin-top:6px">Импорт/экспорт CSV и редактирование участников</div>
+            </div>
+            <div class="rosterTop__right">
+              <button class="btn btn--ghost btn--sm" id="exportMembersCsv">Экспорт CSV</button>
+              <label class="btn btn--primary btn--sm" style="cursor:pointer">
+                Импорт CSV
+                <input id="importMembersCsv" type="file" accept=".csv,text/csv" style="display:none" />
+              </label>
+            </div>
+          </div>
+
+          <div class="grid2" style="margin-top:12px">
+            <div>
+              <div class="result__k">Name</div>
+              <input id="mName" class="field__input" placeholder="Roma Fargo" />
+            </div>
+            <div>
+              <div class="result__k">Role</div>
+              <input id="mRole" class="field__input" placeholder="Доверенный" />
+            </div>
+            <div>
+              <div class="result__k">Rank</div>
+              <input id="mRank" class="field__input" placeholder="10" />
+            </div>
+            <div>
+              <div class="result__k">ID</div>
+              <input id="mId" class="field__input" placeholder="188009" />
+            </div>
+            <div>
+              <div class="result__k">Discord</div>
+              <input id="mDiscord" class="field__input" placeholder="roma#1234" />
+            </div>
+          </div>
+
+          <div class="adminActions" style="margin-top:12px">
+            <button class="mini mini--good" id="addMemberBtn">➕ Добавить</button>
+            <button class="mini" id="saveMemberBtn" style="display:none">💾 Сохранить</button>
+            <button class="mini mini--bad" id="cancelEditMemberBtn" style="display:none">✖ Отмена</button>
+          </div>
+
+          <div style="height:12px"></div>
+          <div class="card card--list" style="margin:0">
+            <div id="adminMembersList" class="rosterList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="scriptError" style="position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;pointer-events:none"></div>
+
+  <!-- Admin User Creation Modal -->
+  <div id="addAdminUserModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:8000;align-items:center;justify-content:center;padding:20px;overflow-y:auto" onclick="if(event.target.id === 'addAdminUserModal') event.target.style.display='none'">
+    <div style="background:#0a0412;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:24px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.8)">
+      <div style="font-size:18px;font-weight:800;margin-bottom:6px">Добавить администратора</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px">Создайте новый аккаунт с логином и паролем</div>
+
+      <div class="field" style="margin-bottom:12px">
+        <label class="field__label">Логин</label>
+        <div class="field__row">
+          <span class="input-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" fill="currentColor"/><path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6v1H4v-1z" fill="currentColor"/></svg>
+          </span>
+          <input id="newAdminUser" class="field__input" placeholder="например: Roma" />
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:12px">
+        <label class="field__label">Пароль</label>
+        <div class="field__row">
+          <span class="input-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 8V7a5 5 0 10-10 0v1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="8" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <input id="newAdminPass" class="field__input" type="password" placeholder="Безопасный пароль" />
+        </div>
+      </div>
+
+      <div class="field" style="margin-bottom:16px">
+        <label class="field__label">Роль</label>
+        <div class="field__row">
+          <span class="input-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z" fill="currentColor"/></svg>
+          </span>
+          <select id="newAdminRole" class="field__input" style="cursor:pointer">
+            <option value="Модератор">Модератор</option>
+            <option value="Помощник">Помощник</option>
+            <option value="Владелец">Владелец</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button class="btn btn--ghost" onclick="document.getElementById('addAdminUserModal').style.display='none'">Отмена</button>
+        <button class="btn btn--primary" id="submitNewAdminBtn">Создать</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Admin User Modal -->
+  <div id="deleteAdminUserModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:8000;align-items:center;justify-content:center;padding:20px;overflow-y:auto" onclick="if(event.target.id === 'deleteAdminUserModal') event.target.style.display='none'">
+    <div style="background:#0a0412;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:24px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.8)">
+      <div style="font-size:18px;font-weight:800;margin-bottom:6px">Удалить администратора</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:16px">Выберите администратора для удаления</div>
+
+      <div class="field" style="margin-bottom:16px">
+        <label class="field__label">Администратор</label>
+        <div class="field__row">
+          <span class="input-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" fill="currentColor"/><path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6v1H4v-1z" fill="currentColor"/></svg>
+          </span>
+          <select id="adminToDelete" class="field__input" style="cursor:pointer">
+            <option value="">-- Выберите пользователя --</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="background:rgba(255,59,109,.1);border:1px solid rgba(255,59,109,.3);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px;color:rgba(255,255,255,.8)">
+        ⚠️ <strong>Это действие необратимо!</strong> Пользователь и все его данные будут удалены.
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <button class="btn btn--ghost" onclick="document.getElementById('deleteAdminUserModal').style.display='none'">Отмена</button>
+        <button class="btn btn--primary" id="confirmDeleteAdminBtn" style="background:#ff3b6d">Удалить</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      function show(msg){
+        try{
+          const box = document.getElementById('scriptError');
+          if(!box) return;
+          box.style.pointerEvents='auto';
+          box.innerHTML = `<div style="background:#ffefef;color:#600;padding:10px;border:1px solid #faa;border-radius:8px;font-weight:700">Скрипт ошибка: ${String(msg).slice(0,300)}</div>`;
+        }catch(_){ }
+      }
+      window.addEventListener('error', function(e){ show(e.message || e.error || e); });
+      window.addEventListener('unhandledrejection', function(e){ show(e.reason || e); });
+      // also catch load failure for the external script
+      window.addEventListener('load', function(){
+        const s = document.querySelector('script[src="../../assets/app.js"]');
+        if(s && s.async === false && s.dataset && s.dataset.loadError === '1'){
+          show('Не удалось загрузить assets/app.js');
+        }
+      });
+    })();
+  </script>
+  <script src="../../assets/app.js"></script>
+  <script>
+    (function(){
+      // Fallback handler: try to call login() if main script didn't bind the button
+      const btn = document.getElementById('loginBtn');
+      if(!btn) return;
+      btn.addEventListener('click', ()=>{
+        try{
+          if(typeof login === 'function') return login();
+        }catch(_){ }
+        console.error('login() not available — main script may have failed to load');
+        alert('Ошибка: скрипт не загружен. Откройте консоль (F12) для деталей.');
+      });
+      const onEnter = (e)=>{ if(e.key === 'Enter'){ try{ if(typeof login === 'function') login(); }catch(_){ console.error('login() not available on Enter'); } } };
+      document.getElementById('adminPass')?.addEventListener('keydown', onEnter);
+      document.getElementById('adminUser')?.addEventListener('keydown', onEnter);
+    })();
+  </script>
+</body>
+</html>

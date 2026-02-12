@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FARGO - Заявка в семью</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../assets/styles.css" />
+</head>
+
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="overlay"></div>
+
+  <!-- Particle canvas -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand" role="button" tabindex="0" onclick="window.location.href='../../index.html'" aria-label="На главную">
+        <div class="brand__text">
+          <div class="brand__title">Fargo Family</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav__link" onclick="window.location.href='Заявка.html'">Заявка</button>
+        <button class="nav__link" onclick="window.location.href='Статус.html'">Статус</button>
+        <button class="nav__link" onclick="window.location.href='Состав.html'">Состав</button>
+        <a class="nav__link nav__link--discord" href="https://discord.gg/hDvFrJCv">Discord</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- APPLY -->
+    <section id="page-apply" class="page is-active">
+      <div class="hero">
+        <h1 class="hero__title">ЗАЯВКА В СЕМЬЮ</h1>
+        <p class="hero__sub">
+          Заполните форму ниже, чтобы подать заявку на вступление<br/>
+          <span>Все поля обязательны для заполнения</span>
+        </p>
+      </div>
+
+      <div class="wrap">
+        <div class="card card--form">
+          <div class="fields">
+
+            <div class="field">
+              <label class="field__label"><span class="ico">🎮</span>Ваш игровой ник <span class="req">*</span></label>
+              <input id="nick" class="field__input" placeholder="Мой ответ" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label class="field__label"><span class="ico">🧑</span>Ваше реальное имя <span class="req">*</span></label>
+              <input id="realName" class="field__input" placeholder="Мой ответ" autocomplete="off" />
+            </div>
+
+
+            <div class="field">
+              <label class="field__label"><span class="ico">🎂</span>Ваш OOC возраст <span class="req">*</span></label>
+              <input id="age" class="field__input" placeholder="Мой ответ" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label class="field__label"><span class="ico">💬</span>Ваш дискорд <span class="req">*</span></label>
+              <input id="discord" class="field__input" placeholder="Мой ответ (например: user#1234)" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label class="field__label"><span class="ico">🕒</span>Ваш средний онлайн в день <span class="req">*</span></label>
+              <input id="online" class="field__input" placeholder="Мой ответ" autocomplete="off" />
+            </div>
+
+            <div class="field field--accent">
+              <label class="field__label"><span class="ico">🎮</span>Сколько вы играете на Маджестик? <span class="req">*</span></label>
+              <input id="majestic" class="field__input" placeholder="Мой ответ" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label class="field__label"><span class="ico">🌍</span>Ваш часовой пояс (-2/МСК/+2) <span class="req">*</span></label>
+              <input id="tz" class="field__input" placeholder="Мой ответ" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label class="field__label"><span class="ico">⭐</span>Ваши интересы (RP/тулл/и то и то) <span class="req">*</span></label>
+              <textarea id="interests" class="field__input field__textarea" placeholder="Мой ответ"></textarea>
+            </div>
+
+            <div class="field">
+              <label class="field__label"><span class="ico">🧾</span>Готовы ли вы изменить фамилию в игре? <span class="req">*</span></label>
+              <input id="surname" class="field__input" placeholder="Мой ответ" autocomplete="off" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn--primary" id="submitBtn">ОТПРАВИТЬ ЗАЯВКУ</button>
+            <button class="btn btn--ghost" id="clearBtn">Очистить</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../assets/app.js"></script>
+</body>
+</html>

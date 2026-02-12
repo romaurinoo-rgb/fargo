@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FARGO - Состав семьи</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../assets/styles.css" />
+</head>
+
+<body>
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <div class="overlay"></div>
+
+  <!-- Particle canvas -->
+  <canvas id="fx" aria-hidden="true"></canvas>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand" role="button" tabindex="0" onclick="window.location.href='../../index.html'" aria-label="На главную">
+        <div class="brand__text">
+          <div class="brand__title">Fargo Family</div>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav__link" onclick="window.location.href='Заявка.html'">Заявка</button>
+        <button class="nav__link" onclick="window.location.href='Статус.html'">Статус</button>
+        <button class="nav__link" onclick="window.location.href='Состав.html'">Состав</button>
+        <a class="nav__link nav__link--discord" href="https://discord.gg/hDvFrJCv">Discord</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- ROSTER -->
+    <section id="page-roster" class="page is-active">
+      <div class="hero hero--small">
+        <h1 class="hero__title hero__title--sm">СОСТАВ СЕМЬИ</h1>
+        <p class="hero__sub">Список участников. Обновляется админами.</p>
+      </div>
+
+      <div class="wrap">
+        <div class="card card--list">
+          <div class="rosterTop">
+            <div class="rosterTop__left">
+              <div class="result__k">ПОИСК</div>
+              <input id="rosterSearch" class="field__input" placeholder="Имя / роль / ID..." />
+            </div>
+            <div class="rosterTop__right">
+              <div class="pill">
+                <svg class="pill__ico" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 12c2.761 0 5-2.239 5-5s-2.239-5-5-5-5 2.239-5 5 2.239 5 5 5z" fill="currentColor"/><path d="M4 20c0-3.314 2.686-6 6-6h4c3.314 0 6 2.686 6 6v1H4v-1z" fill="currentColor"/></svg>
+                <span id="rosterCount">0</span>
+              </div>
+            </div>
+          </div>
+          <div id="rosterList" class="rosterList"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../assets/app.js"></script>
+</body>
+</html>
